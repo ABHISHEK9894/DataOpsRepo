@@ -61,6 +61,33 @@ null_counts.display()
 
 # Handling Null Values - dropna("all")
 df.dropna('all').display()
-
-# Handling Null values - subset
+#----------------------------------------------------------------------
+# Handling Null values - subset -dropna
 df.dropna(subset=['Item_weight']).display()
+
+# Handling Null Values - Fillna
+df.dropna(subset=['Item_weight']).display()
+
+# Split and indexing
+df.withColumn('Outlet_Type', split('Outlet_Type', ' ')[1]).display()
+
+# Explode Function
+df_exp = df.withColumn('Outlet_Type', split('Outlet_Type', ' '))
+df_exp.withColumn('Outlet_Type', explode('Outlet_Type')).display()
+
+# Array Constraints
+df.withColumn('Outlet_Type', array('Outlet_Type')).display()
+
+# Group By 
+# Group the data by item time type and find the total cost of the items by group
+df.groupBy('Item_Type').sum('Item_MRP').display()
+
+# Avg MRP of the grouped items
+df.groupBy('Item_Type').avg('Item_MRP').display()
+
+# Group by Item type and outlet size
+df.groupBy('Item_Type', 'Outlet_Size').sum('Item_MRP').display()
+
+# GRoup by Item type and Outlet size and give the sum and avg MRP
+df.groupBy('Item_Type', 'Outlet_Size').agg(sum('Item_MRP'), avg('Item_MRP')).display()
+#----------------------------------------------------------------------
