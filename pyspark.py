@@ -37,3 +37,5 @@ df1.filter((col('Item_Weight') < 10) & (col('Item_Type') == 'Soft Drinks')).disp
 # Fetch the data with Tier in (Tier1 or Tier2) and outlet size is Null
 
 df1.filter((col('Outlet_Size').isNull()) & (col('Outlet_Location_Type').isin('Tier 1', 'Tier 2'))).display()
+
+# next will be with column renamed
