@@ -12,3 +12,8 @@ df = spark.read.format("csv").option("header", "true").option("inferSchema", "tr
 json_data = 'c:\Users\Abhishek\Downloads\drivers.json'
 
 df1 = spark.read.format("json").option("inferSchema", "True").option("multiline","False").load(json_data)
+
+# Display only selectec columns
+df1.display()
+
+# 
