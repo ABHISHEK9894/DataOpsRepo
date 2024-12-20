@@ -38,9 +38,29 @@ df1.filter((col('Item_Weight') < 10) & (col('Item_Type') == 'Soft Drinks')).disp
 
 df1.filter((col('Outlet_Size').isNull()) & (col('Outlet_Location_Type').isin('Tier 1', 'Tier 2'))).display()
 
-# next will be with column renamed
-
 # With Column Rename
 df.withColumnRenamed('Item_Weight', 'Item_Wt').display()
+
+# Adding Current Date
 df = df.withColumn('curr_date', current_date())
-# Comment
+
+# Date Difference
+df = df.withColumn('week_after', date_add('curr_date', 7))
+
+# Date b/w 2 intervals
+df = df.withColumn('date_diff', datediff('week_after', 'week_before'))
+
+# Date format
+df = df.withColumn('week_before', date_format('week_before', format='dd-MM-yyyy'))
+
+# Null COunts
+
+null_counts = df.select([sum(when(col(c).isNull(), 1).otherwise(0)).alias(c) for c in df.columns])
+
+null_counts.display()
+
+# Handling Null Values - dropna("all")
+df.dropna('all').display()
+
+# Handling Null values - subset
+df.dropna(subset=['Item_weight']).display()
