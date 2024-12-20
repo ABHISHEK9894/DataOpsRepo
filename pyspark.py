@@ -6,7 +6,7 @@ from pyspark.sql.types import *
 from pyspark.sql.functions import *
 
 # loading the csv data
-csv_ata = 'C:\Users\Abhishek\Downloads\git-demo\DataOpsRepo\BigMart Sales.csv' 
+csv_data = 'C:\Users\Abhishek\Downloads\git-demo\DataOpsRepo\BigMart Sales.csv' 
 
 df = spark.read.format("csv").option("header", "true").option("inferSchema", "true").load(csv_data)
 
@@ -39,3 +39,8 @@ df1.filter((col('Item_Weight') < 10) & (col('Item_Type') == 'Soft Drinks')).disp
 df1.filter((col('Outlet_Size').isNull()) & (col('Outlet_Location_Type').isin('Tier 1', 'Tier 2'))).display()
 
 # next will be with column renamed
+
+# With Column Rename
+df.withColumnRenamed('Item_Weight', 'Item_Wt').display()
+df = df.withColumn('curr_date', current_date())
+# Comment
