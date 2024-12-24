@@ -124,6 +124,46 @@ df = df.withColumn(
     .when(((col('Veg_flag') == 'Veg') & (col('Item_MRP') > 100)), 'Veg_Expensive')\
     .otherwise('Non-Veg')
 )
+# --------------------------------------------------------------
+
+# Joins, Inner Join, Left Join, Right Join, Full Join, Anti Join
+
+dataj1 = [('1','gaur','d01'),
+          ('2','kit','d02'),
+          ('3','sam','d03'),
+          ('4','tim','d03'),
+          ('5','aman','d05'),
+          ('6','nad','d06')] 
+
+schemaj1 = 'emp_id STRING, emp_name STRING, dept_id STRING' 
+
+df1 = spark.createDataFrame(dataj1,schemaj1)
+
+dataj2 = [('d01','HR'),
+          ('d02','Marketing'),
+          ('d03','Accounts'),
+          ('d04','IT'),
+          ('d05','Finance')]
+
+schemaj2 = 'dept_id STRING, department STRING'
+
+df2 = spark.createDataFrame(dataj2,schemaj2)
+
+# Inner Join
+df1.join(df2, df1['dept_id'] == df2['dept_id'], 'inner').display()
+
+# Left Join
+df1.join(df2, df1['dept_id'] == df2['dept_id'], 'left').display()
+
+# Right Join
+df1.join(df2, df1['dept_id'] == df2['dept_id'], 'right').display()
+
+# ANti Join
+df1.join(df2, df1['dept_id'] == df2['dept_id'], 'anti').display()
+
+
+
+
 
 
 
