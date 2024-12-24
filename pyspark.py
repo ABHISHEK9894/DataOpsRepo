@@ -91,3 +91,40 @@ df.groupBy('Item_Type', 'Outlet_Size').sum('Item_MRP').display()
 # GRoup by Item type and Outlet size and give the sum and avg MRP
 df.groupBy('Item_Type', 'Outlet_Size').agg(sum('Item_MRP'), avg('Item_MRP')).display()
 #----------------------------------------------------------------------
+
+# Advanced PySpark Functions - Collect_List
+
+# Creating a DataFrame from sampe data
+data = [('user1','book1'),
+        ('user1','book2'),
+        ('user2','book2'),
+        ('user2','book4'),
+        ('user3','book1')]
+
+schema = 'user string, book string'
+
+df_book = spark.createDataFrame(data,schema)
+
+df_book.display()
+
+# Collect List
+df_book.groupBy('user').agg(collect_list('book')).display()
+# --------------------------------------------------------------
+
+# CaseWhen function
+
+# Classifying veg and non veg items
+df = df.withColumn('Veg_flag', when(col('Item_type') == 'Meat', 'Non-Veg').otherwise('Veg'))
+df.display()
+
+# Classifiying expensive and cheap items
+df = df.withColumn(
+    'Expensive_veggies',\
+    when(((col('Veg_flag') == 'Veg') & (col('Item_MRP') < 100)), 'Veg_Inexpensive')\
+    .when(((col('Veg_flag') == 'Veg') & (col('Item_MRP') > 100)), 'Veg_Expensive')\
+    .otherwise('Non-Veg')
+)
+
+
+
+
